@@ -1,22 +1,27 @@
 package converter;
 
-import converter.converter.Converter;
-import converter.converter.JsonConverter;
-import converter.converter.XmlConverter;
+import converter.model.XmlElement;
+import converter.service.Converter;
+import converter.service.JsonConverter;
+import converter.service.XmlConverter;
+import converter.service.XmlParser;
 
+import javax.xml.stream.XMLStreamException;
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
 public class Main {
-    public static void main(String[] args) throws IOException, URISyntaxException {
-        URL resource = Main.class.getClassLoader().getResource("test.txt");
-        assert resource != null;
-        String input = Files.readString(Path.of(resource.toURI()))
-                .replace(System.lineSeparator(), "");
+    public static void main(String[] args) throws Exception {
+        String fileName = "test.txt";
+//        executeConverting(fileName);
+        executeParsing(fileName);
+    }
 
+    private static void executeConverting(String fileName) throws IOException {
+        String input = Files.readString(Path.of(fileName))
+                .replace(System.lineSeparator(), "");
         Converter converter;
         if (input.startsWith("<")) {
             converter = new XmlConverter();
@@ -29,4 +34,11 @@ public class Main {
 
         System.out.println(converter.convert(input));
     }
+
+    private static void executeParsing(String fileName) throws XMLStreamException {
+        XmlParser xmlParser = new XmlParser(fileName);
+        List<XmlElement> xmlElements = xmlParser.parseXml();
+        xmlParser.printElements(xmlElements);
+    }
+
 }
