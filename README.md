@@ -5,23 +5,82 @@
 Input example
 
 ```
-<transaction>
-    <id>6753322</id>
-    <number region="Russia">8-900-000-00-00</number>
-    <nonattr />
-    <nonattr></nonattr>
-    <nonattr>text</nonattr>
-    <attr id="1" />
-    <attr id="2"></attr>
-    <attr id="3">text</attr>
-    <email>
-        <to>to_example@gmail.com</to>
-        <from>from_example@gmail.com</from>
-        <subject>Project discussion</subject>
-        <body font="Verdana">Body message</body>
-        <date day="12" month="12" year="2018"/>
-    </email>
-</transaction>
+{
+    "transaction": {
+        "id": "6753322",
+        "number": {
+            "@region": "Russia",
+            "#number": "8-900-000-000"
+        },
+        "empty1": null,
+        "empty2": { },
+        "empty3": "",
+        "inner1": {
+            "inner2": {
+                "inner3": {
+                    "key1": "value1",
+                    "key2": "value2"
+                }
+            }
+        },
+        "inner4": {
+            "@": 123,
+            "#inner4": "value3"
+        },
+        "inner4.2": {
+            "": 123,
+            "#inner4.2": "value3"
+        },
+        "inner5": {
+            "@attr1": 123.456,
+            "#inner4": "value4"
+        },
+        "inner6": {
+            "@attr2": 789.321,
+            "#inner6": "value5"
+        },
+        "inner7": {
+            "#inner7": "value6"
+        },
+        "inner8": {
+            "@attr3": "value7"
+        },
+        "inner9": {
+            "@attr4": "value8",
+            "#inner9": "value9",
+            "something": "value10"
+        },
+        "inner10": {
+            "@attr5": null,
+            "#inner10": null
+        },
+        "inner11": {
+            "@": null,
+            "#": null
+        },
+        "inner12": {
+            "@somekey": "attrvalue",
+            "#inner12": null,
+            "somekey": "keyvalue",
+            "inner12": "notnull"
+        },
+        "inner13": {
+            "@invalid_attr": {
+                "some_key": "some value"
+            },
+            "#inner13": {
+                "key": "value"
+            }
+        },
+        "": {
+            "#": null,
+            "secret": "this won't be converted"
+        }
+    },
+    "meta": {
+        "version": 0.01
+    }
+}
 ```
 Output example
 ```
@@ -34,197 +93,261 @@ value = "6753322"
 
 Element:
 path = transaction, number
-value = "8-900-000-00-00"
+value = "8-900-000-000"
 attributes:
 region = "Russia"
 
 Element:
-path = transaction, nonattr
+path = transaction, empty1
 value = null
 
 Element:
-path = transaction, nonattr
+path = transaction, empty2
 value = ""
 
 Element:
-path = transaction, nonattr
-value = "text"
-
-Element:
-path = transaction, attr
-value = null
-attributes:
-id = "1"
-
-Element:
-path = transaction, attr
+path = transaction, empty3
 value = ""
+
+Element:
+path = transaction, inner1
+
+Element:
+path = transaction, inner1, inner2
+
+Element:
+path = transaction, inner1, inner2, inner3
+
+Element:
+path = transaction, inner1, inner2, inner3, key1
+value = "value1"
+
+Element:
+path = transaction, inner1, inner2, inner3, key2
+value = "value2"
+
+Element:
+path = transaction, inner4
+
+Element:
+path = transaction, inner4, inner4
+value = "value3"
+
+Element:
+path = transaction, inner4.2
+
+Element:
+path = transaction, inner4.2, inner4.2
+value = "value3"
+
+Element:
+path = transaction, inner5
+
+Element:
+path = transaction, inner5, attr1
+value = "123.456"
+
+Element:
+path = transaction, inner5, inner4
+value = "value4"
+
+Element:
+path = transaction, inner6
+value = "value5"
 attributes:
-id = "2"
+attr2 = "789.321"
 
 Element:
-path = transaction, attr
-value = "text"
-attributes:
-id = "3"
+path = transaction, inner7
+value = "value6"
 
 Element:
-path = transaction, email
+path = transaction, inner8
 
 Element:
-path = transaction, email, to
-value = "to_example@gmail.com"
+path = transaction, inner8, attr3
+value = "value7"
 
 Element:
-path = transaction, email, from
-value = "from_example@gmail.com"
+path = transaction, inner9
 
 Element:
-path = transaction, email, subject
-value = "Project discussion"
+path = transaction, inner9, attr4
+value = "value8"
 
 Element:
-path = transaction, email, body
-value = "Body message"
-attributes:
-font = "Verdana"
+path = transaction, inner9, inner9
+value = "value9"
 
 Element:
-path = transaction, email, date
+path = transaction, inner9, something
+value = "value10"
+
+Element:
+path = transaction, inner10
 value = null
 attributes:
-day = "12"
-month = "12"
-year = "2018"
+attr5 = ""
+
+Element:
+path = transaction, inner11
+value = ""
+
+Element:
+path = transaction, inner12
+
+Element:
+path = transaction, inner12, somekey
+value = "keyvalue"
+
+Element:
+path = transaction, inner12, inner12
+value = "notnull"
+
+Element:
+path = transaction, inner13
+
+Element:
+path = transaction, inner13, invalid_attr
+
+Element:
+path = transaction, inner13, invalid_attr, some_key
+value = "some value"
+
+Element:
+path = transaction, inner13, inner13
+
+Element:
+path = transaction, inner13, inner13, key
+value = "value"
+
+Element:
+path = meta
+
+Element:
+path = meta, version
+value = "0.01"
 ```
 <b>Example 2:</b>
 
 Input example
 
 ```
-<node>
-    <child name = "child_name1" type = "child_type1">
-        <subchild id = "1" auth="auth1">Value1</subchild>
-    </child>
-    <child name = "child_name2" type = "child_type2">
-        <subchild id = "2" auth="auth1">Value2</subchild>
-        <subchild id = "3" auth="auth2">Value3</subchild>
-        <subchild id = "4" auth="auth3"></subchild>
-        <subchild id = "5" auth="auth3"/>
-    </child>
-</node>
+{
+    "root1": {
+        "@attr1": "val1",
+        "@attr2": "val2",
+        "#root1": {
+            "elem1": {
+                "@attr3": "val3",
+                "@attr4": "val4",
+                "#elem1": "Value1"
+            },
+            "elem2": {
+                "@attr5": "val5",
+                "@attr6": "val6",
+                "#elem2": "Value2"
+            }
+        }
+    },
+    "root2": {
+        "@attr1": null,
+        "@attr2": "",
+        "#root2": null
+    },
+    "root3": {
+        "@attr1": "val2",
+        "@attr2": "val1",
+        "#root3": ""
+    },
+    "root4": "Value4"
+}
 
 ```
 Output example
 ```
 Element:
-path = node
-
-Element:
-path = node, child
+path = root1
 attributes:
-name = "child_name1"
-type = "child_type1"
+attr1 = "val1"
+attr2 = "val2"
 
 Element:
-path = node, child, subchild
+path = root1, elem1
 value = "Value1"
 attributes:
-id = "1"
-auth = "auth1"
+attr3 = "val3"
+attr4 = "val4"
 
 Element:
-path = node, child
-attributes:
-name = "child_name2"
-type = "child_type2"
-
-Element:
-path = node, child, subchild
+path = root1, elem2
 value = "Value2"
 attributes:
-id = "2"
-auth = "auth1"
+attr5 = "val5"
+attr6 = "val6"
 
 Element:
-path = node, child, subchild
-value = "Value3"
-attributes:
-id = "3"
-auth = "auth2"
-
-Element:
-path = node, child, subchild
-value = ""
-attributes:
-id = "4"
-auth = "auth3"
-
-Element:
-path = node, child, subchild
+path = root2
 value = null
 attributes:
-id = "5"
-auth = "auth3"
+attr1 = ""
+attr2 = ""
 
+Element:
+path = root3
+value = ""
+attributes:
+attr1 = "val2"
+attr2 = "val1"
+
+Element:
+path = root4
+value = "Value4"
 ```
 <b>Example 3:</b>
 
 Input example
 
 ```
-<node><child name="child_name1" type="child_type1"><subchild id="1" auth="auth1">Value1</subchild></child><child name="child_name2" type="child_type2"><subchild id="2" auth="auth1">Value2</subchild><subchild id="3" auth="auth2">Value3</subchild><subchild id="4" auth="auth3"></subchild><subchild id="5" auth="auth3"/></child></node>
-
+{"root1":{"@attr1":"val1","@attr2":"val2","#root1":{"elem1":{"@attr3":"val3","@attr4":"val4","#elem1":"Value1"},"elem2":{"@attr5":"val5","@attr6":"val6","#elem2":"Value2"}}},"root2":{"@attr1":null,"@attr2":"","#root2":null},"root3":{"@attr1":"val2","@attr2":"val1","#root3":""},"root4":"Value4"}
 ```
 Output example
 ```
 Element:
-path = node
-
-Element:
-path = node, child
+path = root1
 attributes:
-name = "child_name1"
-type = "child_type1"
+attr1 = "val1"
+attr2 = "val2"
 
 Element:
-path = node, child, subchild
+path = root1, elem1
 value = "Value1"
 attributes:
-id = "1"
-auth = "auth1"
+attr3 = "val3"
+attr4 = "val4"
 
 Element:
-path = node, child
-attributes:
-name = "child_name2"
-type = "child_type2"
-
-Element:
-path = node, child, subchild
+path = root1, elem2
 value = "Value2"
 attributes:
-id = "2"
-auth = "auth1"
+attr5 = "val5"
+attr6 = "val6"
 
 Element:
-path = node, child, subchild
-value = "Value3"
-attributes:
-id = "3"
-auth = "auth2"
-
-Element:
-path = node, child, subchild
-value = ""
-attributes:
-id = "4"
-auth = "auth3"
-
-Element:
-path = node, child, subchild
+path = root2
 value = null
 attributes:
-id = "5"
-auth = "auth3"
+attr1 = ""
+attr2 = ""
+
+Element:
+path = root3
+value = ""
+attributes:
+attr1 = "val2"
+attr2 = "val1"
+
+Element:
+path = root4
+value = "Value4"
 ```
